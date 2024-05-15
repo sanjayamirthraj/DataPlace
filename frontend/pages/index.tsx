@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <title>Story Protocol Marketplace</title>
-      <p>Story Protocol Marketplace</p>
+      <p className="bg-red-100">Story Protocol Marketplace</p>
     </div>
   );
 };
