@@ -23,6 +23,11 @@ const Home: NextPage = () => {
       <title>Story Protocol Marketplace</title>
       <ConnectButton />
       <p className="bg-red-100">Story Protocol Marketplace {account.address}</p>
+      <p>
+        Currently getting: Root IPA created at transaction hash undefined, IPA
+        ID: 0x234B4a0bBC330598aCe669616B9Eff465bd4F3ea but should also be
+        getting the transaction hash
+      </p>
     </div>
   );
 };
