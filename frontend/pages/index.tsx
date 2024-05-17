@@ -7,6 +7,7 @@ import { client } from "../config";
 //general workflow --> register NFT on OpenSea, register IPA, attach license terms, place on marketplace
 
 //undefined for txHash cuz already registered
+//this is how to register the IPA
 const response = await client.ipAsset.register({
   nftContract: "0xd516482bef63Ff19Ed40E4C6C2e626ccE04e19ED", // your NFT contract address
   tokenId: "12", // your NFT token ID
@@ -21,6 +22,7 @@ const ipaID = response.ipId?.toString() || " ";
 console.log(ipaID);
 
 //License terms have already been attached, so it throws the error
+//This is how we attach license terms
 try {
   const response = await client.license.attachLicenseTerms({
     licenseTermsId: "1",
