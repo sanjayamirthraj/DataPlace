@@ -4,7 +4,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useAccount } from "wagmi";
 import { client } from "../config";
-//general workflow --> register NFT on OpenSea, register IPA, attach license terms, place on marketplace
+//general workflow --> register NFT, register IPA (can do both at once as well potentially), attach license terms, place on marketplace
 
 //undefined for txHash cuz already registered
 //this is how to register the IPA
