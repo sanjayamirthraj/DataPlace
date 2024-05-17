@@ -4,6 +4,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useAccount } from "wagmi";
 import { client } from "../config";
+//general workflow --> register NFT on OpenSea, register IPA, attach license terms, place on marketplace
 
 //undefined for txHash cuz already registered
 const response = await client.ipAsset.register({
