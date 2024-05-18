@@ -62,7 +62,7 @@ const Home: NextPage = () => {
         <ConnectButton />
       </div>
       <p className="bg-blue-100 m-6 p-6">
-        Story Protocol Marketplace {account.address}
+        Story Protocol Marketplace ({account.address} connected)
       </p>
       <p className="bg-red-100 m-6 p-6">
         Created NFT (Click link below to see) Then attached license and minted
