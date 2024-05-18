@@ -15,8 +15,8 @@ import Link from "next/link";
 //undefined for txHash cuz already registered
 //this is how to register the IPA
 const response = await client.ipAsset.register({
-  nftContract: "0x0f00a58A741aD6C9DFb549e8B0aad1e9bC48D9f1", // your NFT contract address
-  tokenId: "44", // your NFT token ID
+  nftContract: "0x106C471e78Ea840FC0EB8296a9bc0D6024B367E3", // your NFT contract address
+  tokenId: "0", // your NFT token ID
   txOptions: { waitForTransaction: true },
 });
 
@@ -24,15 +24,12 @@ console.log(
   `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId} `
 );
 
-const ipaID = response.ipId?.toString() || " ";
-console.log(ipaID);
-
 //License terms have already been attached, so it throws the error
 //This is how we attach license terms
 try {
   const response = await client.license.attachLicenseTerms({
-    licenseTermsId: "1",
-    ipId: `0x${ipaID}`, // Add the prefix '0x' before ipaID
+    licenseTermsId: "2",
+    ipId: "0x8E1E91465503Dc760853e4C4017A04eeb7d4d1D2", // Add the prefix '0x' before ipaID
     txOptions: { waitForTransaction: true },
   });
 
@@ -40,8 +37,20 @@ try {
     `Attached License Terms to IPA at transaction hash ${response.txHash}.`
   );
 } catch (e) {
-  console.log(`License Terms already attached to this IPA.`);
+  console.log(e);
 }
+
+const responsetoken = await client.license.mintLicenseTokens({
+  licenseTermsId: "2",
+  licensorIpId: "0x8E1E91465503Dc760853e4C4017A04eeb7d4d1D2",
+  receiver: "0x60d6252fC31177B48732ab89f073407788F09C61",
+  amount: 0,
+  txOptions: { waitForTransaction: true },
+});
+
+console.log(
+  `License Token minted at transaction hash ${responsetoken.txHash}, License ID: ${responsetoken.licenseTokenId}`
+);
 
 const Home: NextPage = () => {
   const account = useAccount();
@@ -56,18 +65,30 @@ const Home: NextPage = () => {
         Story Protocol Marketplace {account.address}
       </p>
       <p className="bg-red-100 m-6 p-6">
-        Currently getting: Root IPA created at transaction hash undefined, IPA
-        ID: 0x234B4a0bBC330598aCe669616B9Eff465bd4F3ea -- this is because this
-        transaction has already been registered (taken from docs)
+        Created NFT (Click link below to see) Then attached license and minted
+        tokens
       </p>
       <Link
         href={
-          "https://explorer.storyprotocol.xyz/ipa/0x7241771200d2Fdf8a7a5ffb023d651e288C7940b"
+          "https://explorer.storyprotocol.xyz/ipa/0x8E1E91465503Dc760853e4C4017A04eeb7d4d1D2"
         }
         className="bg-green-100 m-6 p-6 flex justify-center"
       >
         Minted NFT (Click to be directed)
       </Link>
+      <Link
+        href={
+          "https://explorer.storyprotocol.xyz/transactions/0xca2ff2f6c0752fbb957f05b0216a401c17d40111f984d6cc16b0666274d72cc1"
+        }
+        className="bg-green-100 m-6 p-6 flex justify-center"
+      >
+        Transaction that license token had terms attached
+      </Link>
+      <p>
+        License Token minted at transaction hash
+        0x0802b6b5aba67fdde683f55886d9661b16207bb1093927589c2fe81eb4ecf21e,
+        License ID: 1195
+      </p>
     </div>
   );
 };
