@@ -9,6 +9,9 @@ import { StoryClient, StoryConfig } from "@story-protocol/core-sdk";
 import { http, createWalletClient, createPublicClient } from "viem";
 import { sepolia } from "viem/chains";
 import Link from "next/link";
+import { Button } from "../components/ui/button";
+import { RegisterForm } from "../components/ui/register-form";
+import RegisterCard from "../components/ui/register-card";
 
 //general workflow --> register NFT, register IPA (can do both at once as well potentially), attach license terms, place on marketplace
 
@@ -101,6 +104,12 @@ const Home: NextPage = () => {
         0x0802b6b5aba67fdde683f55886d9661b16207bb1093927589c2fe81eb4ecf21e,
         License ID: 1195
       </p>
+      <div
+        className="grid m-6 p-6"
+        style={{ gridTemplateColumns: "1fr 1fr 1fr" }}
+      >
+        <RegisterCard />
+      </div>
     </div>
   );
 };
