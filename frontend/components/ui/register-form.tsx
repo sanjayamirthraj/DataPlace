@@ -69,6 +69,29 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>NFT Contract Address</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="0x106C471e78Ea840FC0EB8296a9bc0D6024B367E3"
+                  {...field}
+                />
+              </FormControl>
+              <FormLabel>Token ID</FormLabel>
+              <FormControl>
+                <Input placeholder="0" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
