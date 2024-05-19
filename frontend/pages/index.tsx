@@ -14,43 +14,55 @@ import Link from "next/link";
 
 //undefined for txHash cuz already registered
 //this is how to register the IPA
-const response = await client.ipAsset.register({
-  nftContract: "0x106C471e78Ea840FC0EB8296a9bc0D6024B367E3", // your NFT contract address
-  tokenId: "0", // your NFT token ID
-  txOptions: { waitForTransaction: true },
-});
-
-console.log(
-  `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId} `
-);
-
-//License terms have already been attached, so it throws the error
-//This is how we attach license terms
-try {
-  const response = await client.license.attachLicenseTerms({
-    licenseTermsId: "2",
-    ipId: "0x8E1E91465503Dc760853e4C4017A04eeb7d4d1D2", // Add the prefix '0x' before ipaID
+const registerIPA = async () => {
+  const response = await client.ipAsset.register({
+    nftContract: "0x106C471e78Ea840FC0EB8296a9bc0D6024B367E3", // your NFT contract address
+    tokenId: "0", // your NFT token ID
     txOptions: { waitForTransaction: true },
   });
 
   console.log(
-    `Attached License Terms to IPA at transaction hash ${response.txHash}.`
+    `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId} `
   );
-} catch (e) {
-  console.log(e);
-}
+};
 
-const responsetoken = await client.license.mintLicenseTokens({
-  licenseTermsId: "2",
-  licensorIpId: "0x8E1E91465503Dc760853e4C4017A04eeb7d4d1D2",
-  receiver: "0x60d6252fC31177B48732ab89f073407788F09C61",
-  amount: 0,
-  txOptions: { waitForTransaction: true },
-});
+//await registerIPA();
 
-console.log(
-  `License Token minted at transaction hash ${responsetoken.txHash}, License ID: ${responsetoken.licenseTokenId}`
-);
+//License terms have already been attached, so it throws the error
+//This is how we attach license terms
+const attachLicenseTerms = async () => {
+  try {
+    const response = await client.license.attachLicenseTerms({
+      licenseTermsId: "2",
+      ipId: "0x8E1E91465503Dc760853e4C4017A04eeb7d4d1D2", // Add the prefix '0x' before ipaID
+      txOptions: { waitForTransaction: true },
+    });
+
+    console.log(
+      `Attached License Terms to IPA at transaction hash ${response.txHash}.`
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+//await attachLicenseTerms();
+
+const mintLicenseTokens = async () => {
+  const responsetoken = await client.license.mintLicenseTokens({
+    licenseTermsId: "2",
+    licensorIpId: "0x8E1E91465503Dc760853e4C4017A04eeb7d4d1D2",
+    receiver: "0x60d6252fC31177B48732ab89f073407788F09C61",
+    amount: 0,
+    txOptions: { waitForTransaction: true },
+  });
+
+  console.log(
+    `License Token minted at transaction hash ${responsetoken.txHash}, License ID: ${responsetoken.licenseTokenId}`
+  );
+};
+
+//await mintLicenseTokens();
 
 const Home: NextPage = () => {
   const account = useAccount();
