@@ -74,17 +74,16 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <title>Story Protocol Marketplace</title>
-      <div className="m-6">
-        <ConnectButton />
-      </div>
-      <p className="bg-blue-100 m-6 p-6">
-        Story Protocol Marketplace ({account.address} connected)
-      </p>
-
-      <div className="grid m-6 p-6" style={{ display: "flex", gap: "1rem" }}>
-        <RegisterCard />
-        <AttachLicenseCard />
+      <div className="p-10">
+        <title>Story Protocol Marketplace</title>
+        <div className="m-6"></div>
+        <p className="bg-blue-100 m-6 p-6">
+          Story Protocol Marketplace ({account.address} connected)
+        </p>
+        <div className="grid m-6 p-6" style={{ display: "flex", gap: "1rem" }}>
+          <RegisterCard />
+          <AttachLicenseCard />
+        </div>
       </div>
     </div>
   );

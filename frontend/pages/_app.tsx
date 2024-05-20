@@ -13,6 +13,7 @@ import {
   sepolia,
 } from "wagmi/chains";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import MenuBar from "../components/ui/navigation-bar";
 
 const config = getDefaultConfig({
   appName: "RainbowKit App",
@@ -28,6 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={client}>
         <RainbowKitProvider>
+          <MenuBar />
           <Component {...pageProps} />
         </RainbowKitProvider>
       </QueryClientProvider>
