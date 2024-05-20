@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "./card";
 import { RegisterForm } from "./register-form";
-export default function RegisterCard() {
+export default function AttachLicenseCard() {
   return (
     <Card>
       <CardHeader>
