@@ -85,7 +85,7 @@ export function AttachLicenseForm() {
             name="licenseTermsId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Token ID</FormLabel>
+                <FormLabel>Registration Terms</FormLabel>
                 <FormControl>
                   <Input placeholder="1" {...field} />
                 </FormControl>
@@ -99,7 +99,7 @@ export function AttachLicenseForm() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      {responseMessage !== "" && <p> {responseMessage}</p>}
+      {responseMessage !== "" && <p className="p-2"> {responseMessage}</p>}
     </div>
   );
 }

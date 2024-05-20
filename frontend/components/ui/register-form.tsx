@@ -61,7 +61,7 @@ export function RegisterForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>NFT Contract Address</FormLabel>
+                <FormLabel>NFT Contract Address (No 0x at the start)</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="0x106C471e78Ea840FC0EB8296a9bc0D6024B367E3"
@@ -91,7 +91,9 @@ export function RegisterForm() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      {ipaID !== "" && <p>Transaction Success: IP ID: {ipaID}</p>}
+      {ipaID !== "" && (
+        <p className="p-2">Transaction Success: IP ID: {ipaID}</p>
+      )}
     </div>
   );
 }
