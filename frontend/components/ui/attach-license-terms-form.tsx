@@ -21,36 +21,44 @@ const formSchema = z.object({
   username: z.string().min(2, {
     message: "A must be at least 2 characters.",
   }),
-  tokenID: z.string(),
+  licenseTermsId: z.string(),
 });
 
-export function RegisterForm() {
-  const [ipaID, setIpaID] = useState<string>("");
+export function AttachLicenseForm() {
+  const [responseMessage, setResponse] = useState<string>("");
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
-      tokenID: "",
+      licenseTermsId: "",
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const nftContractValue = values.username;
-    const tokenIdValue = values.tokenID;
-    const response = await client.ipAsset.register({
-      nftContract: `0x${nftContractValue}`, // your NFT contract address
-      tokenId: tokenIdValue, // your NFT token ID
-      txOptions: { waitForTransaction: true },
-    });
-
-    console.log(
-      `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId} `
-    );
+    const ipIDValue = values.username;
+    const licenseTermsIdValue = values.licenseTermsId;
     console.log(values);
-    setIpaID((response.ipId ?? "").toString());
+
+    try {
+      const response = await client.license.attachLicenseTerms({
+        licenseTermsId: licenseTermsIdValue,
+        ipId: `0x${ipIDValue}`, // Add the prefix '0x' before ipaID
+        txOptions: { waitForTransaction: true },
+      });
+
+      console.log(
+        `Attached License Terms to IPA at transaction hash ${response.txHash}.`
+      );
+      setResponse(
+        `Attached License Terms to IPA at transaction hash ${response.txHash}.`
+      );
+    } catch (e) {
+      console.log(e);
+      setResponse("License Terms already attached to IPA");
+    }
   }
   return (
     <div>
@@ -61,28 +69,28 @@ export function RegisterForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>NFT Contract Address</FormLabel>
+                <FormLabel>IP ID</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="0x106C471e78Ea840FC0EB8296a9bc0D6024B367E3"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Enter NFT Contract Address</FormDescription>
+                <FormDescription>Enter IP ID</FormDescription>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="tokenID"
+            name="licenseTermsId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Token ID</FormLabel>
                 <FormControl>
-                  <Input placeholder="0" {...field} />
+                  <Input placeholder="1" {...field} />
                 </FormControl>
                 <FormDescription>
-                  Enter Token ID Number of the NFT you want to register
+                  Enter licensing terms you want to register
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -91,7 +99,7 @@ export function RegisterForm() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      {ipaID !== "" && <p>Transaction Success: IP ID: {ipaID}</p>}
+      {responseMessage !== "" && <p> {responseMessage}</p>}
     </div>
   );
 }

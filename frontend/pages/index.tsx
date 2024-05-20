@@ -12,6 +12,8 @@ import Link from "next/link";
 import { Button } from "../components/ui/button";
 import { RegisterForm } from "../components/ui/register-form";
 import RegisterCard from "../components/ui/register-card";
+import { AttachLicenseForm } from "../components/ui/attach-license-terms-form";
+import AttachLicenseCard from "../components/ui/attach-license-terms-card";
 
 //general workflow --> register NFT, register IPA (can do both at once as well potentially), attach license terms, place on marketplace
 
@@ -80,11 +82,9 @@ const Home: NextPage = () => {
         Story Protocol Marketplace ({account.address} connected)
       </p>
 
-      <div
-        className="grid m-6 p-6"
-        style={{ gridTemplateColumns: "1fr 1fr 1fr" }}
-      >
+      <div className="grid m-6 p-6" style={{ display: "flex", gap: "1rem" }}>
         <RegisterCard />
+        <AttachLicenseCard />
       </div>
     </div>
   );
