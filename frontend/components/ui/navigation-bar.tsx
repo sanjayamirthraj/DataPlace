@@ -20,7 +20,7 @@ export default function Component() {
           <nav className="hidden md:flex gap-4">
             <Link
               className="font-medium flex items-center text-sm transition-colors hover:underline"
-              href="#"
+              href="/"
             >
               Register
             </Link>

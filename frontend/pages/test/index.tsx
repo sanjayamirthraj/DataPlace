@@ -9,9 +9,7 @@ const Home: NextPage = () => {
   return (
     <div className="p-6 m-6">
       <title>Story Protocol Marketplace</title>
-      <div className="m-6">
-        <ConnectButton />
-      </div>
+
       <p className="bg-blue-100 m-6 p-6">
         Story Protocol Marketplace ({account.address} connected)
       </p>

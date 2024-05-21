@@ -19,9 +19,11 @@ import { useState } from "react";
 
 const formSchema = z.object({
   username: z.string().min(2, {
-    message: "A must be at least 2 characters.",
+    message: "must be at least 2 characters.",
   }),
-  tokenID: z.string(),
+  tokenID: z.string().min(1, {
+    message: "must be at least 2 characters.",
+  }),
 });
 
 export function RegisterForm() {

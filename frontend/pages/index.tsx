@@ -77,19 +77,33 @@ const Home: NextPage = () => {
       <div className="p-10">
         <title>Story Protocol Marketplace</title>
         <div className="m-6"></div>
-        {account.address && (
+        {!account.address && (
           <p
             className="bg-gradient-to-r
+          from-green-500
+          via-blue-400
+          to-purple-300 m-6 p-6 text-white rounded-lg"
+          >
+            Please Connect a Wallet
+          </p>
+        )}
+        {account.address && (
+          <div
+            className="grid m-6 p-6"
+            style={{ display: "flex", gap: "1rem" }}
+          >
+            <RegisterCard />
+            <AttachLicenseCard />
+          </div>
+        )}
+        <div
+          className="bg-gradient-to-r
           from-pink-500
           via-red-400
           to-yellow-300 m-6 p-6 text-white rounded-lg"
-          >
-            Story Protocol Marketplace ({account.address} connected)
-          </p>
-        )}
-        <div className="grid m-6 p-6" style={{ display: "flex", gap: "1rem" }}>
-          <RegisterCard />
-          <AttachLicenseCard />
+          style={{ position: "fixed", bottom: 0 }}
+        >
+          <p>This is a Test version of Registration for Verifiable IP </p>
         </div>
       </div>
     </div>
