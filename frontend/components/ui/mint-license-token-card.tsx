@@ -1,3 +1,5 @@
+"use client";
+
 import { AttachLicenseForm } from "./attach-license-terms-form";
 import {
   Card,
