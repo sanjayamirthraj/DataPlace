@@ -1,19 +1,12 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useAccount } from "wagmi";
 import { account, client } from "../config";
-import { Account, privateKeyToAccount, Address } from "viem/accounts";
-import { StoryClient, StoryConfig } from "@story-protocol/core-sdk";
-import { http, createWalletClient, createPublicClient } from "viem";
-import { sepolia } from "viem/chains";
-import Link from "next/link";
-import { Button } from "../components/ui/button";
-import { RegisterForm } from "../components/ui/register-form";
 import RegisterCard from "../components/ui/register-card";
-import { AttachLicenseForm } from "../components/ui/attach-license-terms-form";
+
 import AttachLicenseCard from "../components/ui/attach-license-terms-card";
+import MintTokenCard from "../components/ui/mint-license-token-card";
 
 //general workflow --> register NFT, register IPA (can do both at once as well potentially), attach license terms, place on marketplace
 
@@ -89,11 +82,18 @@ const Home: NextPage = () => {
         )}
         {account.address && (
           <div
-            className="grid m-6 p-6"
-            style={{ display: "flex", gap: "1rem" }}
+            className="grid grid-cols-3 m-6 p-6"
+            style={{ display: "flex", gap: "1rem", justifyContent: "center" }}
           >
-            <RegisterCard />
-            <AttachLicenseCard />
+            <div className="w-full">
+              <RegisterCard />
+            </div>
+            <div className="w-full">
+              <AttachLicenseCard />
+            </div>
+            <div className="w-full">
+              <MintTokenCard />
+            </div>
           </div>
         )}
         <div
@@ -103,7 +103,7 @@ const Home: NextPage = () => {
           to-yellow-300 m-6 p-6 text-white rounded-lg"
           style={{ position: "fixed", bottom: 0 }}
         >
-          <p>This is a Test version of Registration for Verifiable IP </p>
+          <p>This is a Beta version of Lumm Koff </p>
         </div>
       </div>
     </div>

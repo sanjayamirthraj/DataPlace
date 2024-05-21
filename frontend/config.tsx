@@ -2,8 +2,8 @@ import { Account, privateKeyToAccount, Address } from "viem/accounts";
 import { StoryClient, StoryConfig } from "@story-protocol/core-sdk";
 import { http, createWalletClient, createPublicClient } from "viem";
 import { sepolia } from "viem/chains";
-
-const privateKey: Address = `0x${process.env.PRIVATE_KEY}`;
+//these are changes to config to check the gitignore
+const privateKey: Address = `0x2fa8efe237294d598f4c2699f69a0a9228c5263805a408dffabbea6dcf6e4105`;
 export const account: Account = privateKeyToAccount(privateKey);
 
 const config: StoryConfig = {
