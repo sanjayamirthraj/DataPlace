@@ -30,13 +30,13 @@ export default function Component() {
             >
               Market Place
             </Link>
-            {/* <Link
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
-              href="#"
-            >
-              Services
-            </Link>
             <Link
+              className="font-medium flex items-center text-sm transition-colors hover:underline"
+              href="/test"
+            >
+              Example Page
+            </Link>
+            {/* <Link
               className="font-medium flex items-center text-sm transition-colors hover:underline"
               href="#"
             >

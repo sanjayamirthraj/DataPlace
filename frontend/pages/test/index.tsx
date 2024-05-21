@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   const account = useAccount();
 
   return (
-    <div>
+    <div className="p-6 m-6">
       <title>Story Protocol Marketplace</title>
       <div className="m-6">
         <ConnectButton />

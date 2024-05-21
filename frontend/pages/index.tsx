@@ -77,9 +77,16 @@ const Home: NextPage = () => {
       <div className="p-10">
         <title>Story Protocol Marketplace</title>
         <div className="m-6"></div>
-        <p className="bg-blue-100 m-6 p-6">
-          Story Protocol Marketplace ({account.address} connected)
-        </p>
+        {account.address && (
+          <p
+            className="bg-gradient-to-r
+          from-pink-500
+          via-red-400
+          to-yellow-300 m-6 p-6 text-white rounded-lg"
+          >
+            Story Protocol Marketplace ({account.address} connected)
+          </p>
+        )}
         <div className="grid m-6 p-6" style={{ display: "flex", gap: "1rem" }}>
           <RegisterCard />
           <AttachLicenseCard />
