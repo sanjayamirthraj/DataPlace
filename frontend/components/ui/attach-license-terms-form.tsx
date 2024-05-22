@@ -101,7 +101,7 @@ export function AttachLicenseForm() {
         </form>
       </Form>
       <a
-        href={`https://explorer.storyprotocol.xyz/transactions${responseMessage}`}
+        href={`https://explorer.storyprotocol.xyz/transactions/${responseMessage}`}
       >
         {responseMessage !== "" && <p className="p-3"> {responseMessage}</p>}
       </a>
