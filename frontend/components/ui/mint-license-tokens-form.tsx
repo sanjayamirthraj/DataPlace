@@ -48,9 +48,10 @@ export function MintTokenForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const licensorIpId = values.username;
+    setMessage("Loading...");
+    const licensorIpId = values.username.replace(/^0x/, "");
     const licenseTerms = values.tokenID;
-    const receiver = values.receiver;
+    const receiver = values.receiver.replace(/^0x/, "");
     const amount = Number(values.amount);
     const response = await client.license.mintLicenseTokens({
       licenseTermsId: licenseTerms,
@@ -84,7 +85,7 @@ export function MintTokenForm() {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Enter NFT Contract Address</FormDescription>
+                <FormDescription>Enter IPA ID</FormDescription>
               </FormItem>
             )}
           />

@@ -4,8 +4,8 @@ import { http, createWalletClient, createPublicClient } from "viem";
 import { sepolia } from "viem/chains";
 //changes to the config to test gitignore
 //this is another test
-const accountNumber = "60d6252fC31177B48732ab89f073407788F09C61";
-export const account = `0x${accountNumber}`;
+const privateKey: Address = `0x2fa8efe237294d598f4c2699f69a0a9228c5263805a408dffabbea6dcf6e4105`;
+const account: Account = privateKeyToAccount(privateKey);
 
 const config: StoryConfig = {
   transport: http(process.env.RPC_PROVIDER_URL),

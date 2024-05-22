@@ -16,6 +16,7 @@ import {
 import { Input } from "./input";
 import { client } from "../../config";
 import { useState } from "react";
+import { Link } from "lucide-react";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -28,6 +29,7 @@ const formSchema = z.object({
 
 export function RegisterForm() {
   const [ipaID, setIpaID] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,7 +42,9 @@ export function RegisterForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const nftContractValue = values.username;
+    setMessage("Loading...");
+    const nftContractValue = values.username.replace(/^0x/, "");
+
     const tokenIdValue = values.tokenID;
     const response = await client.ipAsset.register({
       nftContract: `0x${nftContractValue}`, // your NFT contract address
@@ -52,6 +56,13 @@ export function RegisterForm() {
       `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId} `
     );
     console.log(values);
+    if (response.txHash && response.ipId) {
+      setMessage(
+        `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId}`
+      );
+    } else {
+      setMessage(`Asset has already been registered, IPA ID: ${response.ipId}`);
+    }
     setIpaID((response.ipId ?? "").toString());
   }
   return (
@@ -63,7 +74,7 @@ export function RegisterForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>NFT Contract Address (No 0x at the start)</FormLabel>
+                <FormLabel>NFT Contract Address </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="0x106C471e78Ea840FC0EB8296a9bc0D6024B367E3"
@@ -93,9 +104,9 @@ export function RegisterForm() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      {ipaID !== "" && (
-        <p className="p-2">Transaction Success: IP ID: {ipaID}</p>
-      )}
+      <a href={`https://explorer.storyprotocol.xyz/ipa/${ipaID}`}>
+        {message !== "" ? <p className="p-3">{message}</p> : null}
+      </a>
     </div>
   );
 }

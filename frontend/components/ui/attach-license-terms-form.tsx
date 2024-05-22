@@ -38,7 +38,8 @@ export function AttachLicenseForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const ipIDValue = values.username;
+    setResponse("Loading...");
+    const ipIDValue = values.username.replace(/^0x/, "");
     const licenseTermsIdValue = values.licenseTermsId;
     console.log(values);
 
@@ -99,7 +100,11 @@ export function AttachLicenseForm() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      {responseMessage !== "" && <p className="p-2"> {responseMessage}</p>}
+      <a
+        href={`https://explorer.storyprotocol.xyz/transactions${responseMessage}`}
+      >
+        {responseMessage !== "" && <p className="p-3"> {responseMessage}</p>}
+      </a>
     </div>
   );
 }

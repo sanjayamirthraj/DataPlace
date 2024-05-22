@@ -14,7 +14,7 @@ export default function AttachLicenseCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Register IP</CardTitle>
+        <CardTitle>Attach Licenses</CardTitle>
       </CardHeader>
       <CardContent>
         <AttachLicenseForm />

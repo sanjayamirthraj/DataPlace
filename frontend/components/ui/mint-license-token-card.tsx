@@ -14,7 +14,7 @@ export default function MintTokenCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Register IP</CardTitle>
+        <CardTitle>Mint License Tokens</CardTitle>
       </CardHeader>
       <CardContent>
         <MintTokenForm />
