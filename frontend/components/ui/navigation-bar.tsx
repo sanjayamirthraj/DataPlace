@@ -26,7 +26,7 @@ export default function Component() {
             </Link>
             <Link
               className="font-medium flex items-center text-sm transition-colors hover:underline"
-              href="#"
+              href="/marketplace"
             >
               Market Place
             </Link>
