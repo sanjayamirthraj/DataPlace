@@ -17,14 +17,17 @@ import { Input } from "./input";
 import { client } from "../../config";
 import { useState } from "react";
 import { Link } from "lucide-react";
+import { storage } from "../../firebase-config";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "must be at least 2 characters.",
+  }), 
+  tokenID: z.coerce.number({
+    message: "must be a number",
   }),
-  tokenID: z.string().min(1, {
-    message: "must be at least 2 characters.",
-  }),
+  file: z.any()
 });
 
 export function RegisterForm() {
@@ -36,34 +39,57 @@ export function RegisterForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
-      tokenID: "",
+      file: null,
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setMessage("Loading...");
-    const nftContractValue = values.username.replace(/^0x/, "");
+    try {
+      setMessage("Loading...");
+      if (!values.file || values.file.length === 0) {
+        setMessage("Please upload a file.");
+        return;
+      }
+      const file = values.file[0];
+      if (file.type != "text/plain") {
+        setMessage("Please upload a .txt file.");
+        return;
+      }
+      const nftContractValue = values.username.replace(/^0x/, "");
 
-    const tokenIdValue = values.tokenID;
-    const response = await client.ipAsset.register({
-      nftContract: `0x${nftContractValue}`, // your NFT contract address
-      tokenId: tokenIdValue, // your NFT token ID
-      txOptions: { waitForTransaction: true },
-    });
+      const tokenIdValue = values.tokenID;
+      const response = await client.ipAsset.register({
+        nftContract: `0x${nftContractValue}`, // your NFT contract address
+        tokenId: tokenIdValue, // your NFT token ID
+        txOptions: { waitForTransaction: true },
+      });
 
-    console.log(
-      `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId} `
-    );
-    console.log(values);
-    if (response.txHash && response.ipId) {
-      setMessage(
-        `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId}`
+      if (response.txHash && response.ipId) {
+        const fileRef = ref(storage, `files/${response.ipId}`);
+        await uploadBytesResumable(fileRef, file).then(async (snapshot) => {
+          const downloadURL = await getDownloadURL(snapshot.ref);
+          console.log("File available at", downloadURL);
+          setMessage(`Root IPA created with file at URL: ${downloadURL}`);
+        });
+      }
+
+      console.log(
+        `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId} `
       );
-    } else {
-      setMessage(`Asset has already been registered, IPA ID: ${response.ipId}`);
+      console.log(values);
+      if (response.txHash && response.ipId) {
+        setMessage(
+          `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId}`
+        );
+      } else {
+        setMessage(`Asset has already been registered, IPA ID: ${response.ipId}`);
+      }
+      setIpaID((response.ipId ?? "").toString());
+    } catch (error) {
+      console.error("Error registering asset", error);
+      setMessage("Error registering asset");
     }
-    setIpaID((response.ipId ?? "").toString());
   }
   return (
     <div>
@@ -97,6 +123,20 @@ export function RegisterForm() {
                 <FormDescription>
                   Enter Token ID Number of the NFT you want to register
                 </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="file"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Upload File</FormLabel>
+                <FormControl>
+                  <Input type="file" {...form.register("file")} accept=".txt" />
+                </FormControl>
+                <FormDescription>Upload your .txt file represented by the NFT.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

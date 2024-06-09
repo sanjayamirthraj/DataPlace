@@ -16,6 +16,8 @@ import {
 import { Input } from "./input";
 import { client } from "../../config";
 import { useState } from "react";
+import { storage } from "../../firebase-config";
+import { ref, getDownloadURL } from "firebase/storage";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -33,7 +35,7 @@ const formSchema = z.object({
 });
 
 export function MintTokenForm() {
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState({ text: "", url: "" });
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,26 +50,39 @@ export function MintTokenForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setMessage("Loading...");
+    setMessage({ text: "Loading...", url: "" });
     const licensorIpId = values.username.replace(/^0x/, "");
     const licenseTerms = values.tokenID;
     const receiver = values.receiver.replace(/^0x/, "");
     const amount = Number(values.amount);
-    const response = await client.license.mintLicenseTokens({
-      licenseTermsId: licenseTerms,
-      licensorIpId: `0x${licensorIpId}`,
-      receiver: `0x${receiver}`,
-      amount: amount,
-      txOptions: { waitForTransaction: true },
-    });
+    try {
+      const response = await client.license.mintLicenseTokens({
+        licenseTermsId: licenseTerms,
+        licensorIpId: `0x${licensorIpId}`,
+        receiver: `0x${receiver}`,
+        amount: amount,
+        txOptions: { waitForTransaction: true },
+      });
 
-    console.log(
-      `License Token minted at transaction hash ${response.txHash}, License ID: ${response.licenseTokenId}`
-    );
-    console.log(values);
-    setMessage(
-      `License Token minted at transaction hash ${response.txHash}, License ID: ${response.licenseTokenId}`
-    );
+      console.log(
+        `License Token minted at transaction hash ${response.txHash}, License ID: ${response.licenseTokenId}`
+      );
+      console.log(values);
+      setMessage(
+        { text: `License Token minted at transaction hash ${response.txHash}, License ID: ${response.licenseTokenId}`, url: ""}
+      );
+      if (response.txHash && response.licenseTokenId) {
+        const fileRef = ref(storage, `files/0x${licensorIpId}`);
+        const downloadURL = await getDownloadURL(fileRef);
+        setMessage({ text: `License Token minted. Download file here:`, url: downloadURL});
+        console.log("File available at", downloadURL);
+      } else {
+        throw new Error("Failed to mint the license token.");
+      }
+    } catch (error) {
+      console.error("Error during the licensing process:", error);
+      setMessage({ text: `${error}`, url: "" });
+    }
   }
   return (
     <div>
@@ -143,7 +158,11 @@ export function MintTokenForm() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      {message !== "" && <p className="p-2">{message}</p>}
+      {message.text && (
+      <p className="p-2">
+        {message.text} {message.url && <a href={message.url} target="_blank" rel="noopener noreferrer" style={{ color: 'blue', textDecoration: 'underline' }}>Click here</a>}
+      </p>
+      )}
     </div>
   );
 }
