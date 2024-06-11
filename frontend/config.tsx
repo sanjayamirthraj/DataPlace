@@ -7,7 +7,7 @@ import 'dotenv/config';
 //this is another test
 console.log(process.env.PRIVATE_KEY);
 
-const privateKey: Address = '0xa7c471add4b92a80b1ab49f2615262d2bfdc25f8e4f46940a70f4927e3f6912d'
+const privateKey: Address = `0x${process.env.PRIVATE_KEY}`;
 const account: Account = privateKeyToAccount(privateKey);
 
 const config: StoryConfig = {

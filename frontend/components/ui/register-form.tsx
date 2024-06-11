@@ -47,7 +47,7 @@ export function RegisterForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
+    //try {
       setMessage("Loading...");
       if (!values.file || values.file.length === 0) {
         setMessage("Please upload a file.");
@@ -59,7 +59,6 @@ export function RegisterForm() {
         return;
       }
       const nftContractValue = values.username.replace(/^0x/, "");
-
       const tokenIdValue = values.tokenID;
       console.log("about to register asset...");
       const response = await client.ipAsset.register({
@@ -76,7 +75,6 @@ export function RegisterForm() {
           setMessage(`Root IPA created with file at URL: ${downloadURL}`);
         });
       }
-
       console.log(
         `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId} `
       );
@@ -89,10 +87,10 @@ export function RegisterForm() {
         setMessage(`Asset has already been registered, IPA ID: ${response.ipId}`);
       }
       setIpaID((response.ipId ?? "").toString());
-    } catch (error) {
-      console.error("Error registering asset", error);
-      setMessage("Error registering asset");
-    }
+    //} catch (error) {
+    //  console.error("Error registering asset", error);
+    //  setMessage("Error registering asset");
+   // }
   }
   return (
     <div>
