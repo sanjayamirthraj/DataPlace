@@ -43,6 +43,8 @@ export function RegisterForm() {
     },
   });
 
+  const acceptedFileTypes = ["text/plain", "text/csv", "application/pdf"];
+
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -52,19 +54,20 @@ export function RegisterForm() {
         return;
       }
       const file = values.file[0];
-      if (file.type != "text/plain") {
-        setMessage("Please upload a .txt file.");
+      if (!acceptedFileTypes.includes(file.type)) {
+        setMessage("Please upload a .txt, .csv, or .pdf file.");
         return;
       }
       const nftContractValue = values.username.replace(/^0x/, "");
 
       const tokenIdValue = values.tokenID;
+      console.log("about to register asset...");
       const response = await client.ipAsset.register({
         nftContract: `0x${nftContractValue}`, // your NFT contract address
         tokenId: tokenIdValue, // your NFT token ID
         txOptions: { waitForTransaction: true },
       });
-
+      console.log(response);
       if (response.txHash && response.ipId) {
         const fileRef = ref(storage, `files/${response.ipId}`);
         await uploadBytesResumable(fileRef, file).then(async (snapshot) => {
@@ -134,9 +137,9 @@ export function RegisterForm() {
               <FormItem>
                 <FormLabel>Upload File</FormLabel>
                 <FormControl>
-                  <Input type="file" {...form.register("file")} accept=".txt" />
+                  <Input type="file" {...form.register("file")} accept=".txt,.csv,.pdf" />
                 </FormControl>
-                <FormDescription>Upload your .txt file represented by the NFT.</FormDescription>
+                <FormDescription>Upload your data file represented by the NFT.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

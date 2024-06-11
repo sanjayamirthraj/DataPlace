@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useAccount } from "wagmi";
-import { account, client } from "../config";
+import { client } from "../config";
 import RegisterCard from "../components/ui/register-card";
 
 import AttachLicenseCard from "../components/ui/attach-license-terms-card";

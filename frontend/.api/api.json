@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "storyprotocol",
+      "source": "@storyprotocol/v1#4mro1vlw0d4sql",
+      "integrity": "sha512-BUd58VwOQGrfRSgXIt0aqfn2v7MyVoFH3khQm3XEcUcVwG4yMgunloPRp1oBYHxZ/j5CmFOHkMvwndKoDpn2gA==",
+      "installerVersion": "6.1.1"
+    }
+  ]
+}
