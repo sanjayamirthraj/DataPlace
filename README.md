@@ -16,11 +16,11 @@ cd frontend
 │       └── filler.sol      # Solidity file for the backend
 ├── frontend                # Frontend folder
     ├── .api                # API configuration or folder
-    ├── .next               # Next.js build folder (usually auto-generated)
+    ├── .next               # Next.js build folder 
     ├── components          # Reusable React components
-    ├── functions           # Serverless functions or utilities
+    ├── functions           # Serverless functions 
     ├── lib                 # Library files and utilities
-    ├── node_modules        # Node.js modules (auto-generated)
+    ├── node_modules        # Node.js modules 
     ├── pages               # Next.js pages (routes)
     ├── public              # Public assets
     ├── styles              # CSS and style files
